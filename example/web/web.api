@@ -1,0 +1,57 @@
+syntax = "v1"
+
+type Request {
+	Name string `path:"name,options=you|me"`
+}
+
+type Response {
+	Message string `json:"message"`
+}
+
+//登录
+@server (
+	prefix: /v1
+)
+service Account {
+	@doc "account user login"
+	@handler accountLogin
+	post /login (Request) returns (Response)
+}
+
+//用户管理
+@server (
+	prefix: /v1
+	group:  account/user
+)
+service Account {
+	@doc "account create user"
+	@handler accountUserAdd
+	post /addUser (Request) returns (Response)
+
+	@doc "account edit user"
+	@handler accountUserEdit
+	post /editUser (Request) returns (Response)
+}
+
+//机构管理
+@server (
+	prefix: /v1
+	group:  account/org
+)
+service Account {
+	@doc "account create org"
+	@handler accountOrgAdd
+	post /addOrg (Request) returns (Response)
+}
+
+//角色管理
+@server (
+	prefix: /v1
+	group:  account/role
+)
+service Account {
+	@doc "account create role"
+	@handler accountRoleAdd
+	post /addRole (Request) returns (Response)
+}
+
