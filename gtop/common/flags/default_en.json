@@ -1,9 +1,9 @@
 {
-  "gofkctl": {
-    "short": "gofkctl client tools code",
-    "long": "gofkctl client tools (api,rpc,plugins) code\n\nGitHub: https://github.com/bhmy-shm/gofk",
-    "api": {
-      "short": "Generate api related files",
+  "gtop": {
+    "short": "gtop linux dynamic tools code",
+    "long": "gtop linux dynamic tools (cpu) code\n\nGitHub: https://github.com/bhmy-shm/gofk",
+    "resource": {
+      "short": "gtop resource",
       "o": "Output a sample api file",
       "home": "{{.global.home}}",
       "remote": "{{.global.remote}}",
@@ -15,141 +15,62 @@
         "dir": "{{.gofkctl.api.dir}}",
         "o": "The output markdown directory"
       },
-      "format": {
-        "short": "Format api files",
-        "dir": "{{.gofkctl.api.dir}}",
-        "iu": "Ignore update",
-        "stdin": "Use stdin to input api doc content, press \"ctrl + d\" to send EOF",
-        "declare": "Use to skip check api types already declare"
-      },
-      "new": {
-        "short": "Fast create api service",
-        "Example": "gofkctl api new [options] service-name",
+      "cpu": {
+        "short": "dynamic print cpu ",
+        "Example": "gtop resource cpu",
         "home": "{{.global.home}}",
         "remote": "{{.global.remote}}",
-        "branch": "{{.global.branch}}",
-        "style": "{{.global.style}}"
-      },
-      "validate": {
-        "short": "Validate api file",
-        "api": "{{.gofkctl.api.api}}"
-      },
-      "plugin": {
-        "short": "Custom file generator",
-        "plugin": "The plugin file",
-        "dir": "{{.gofkctl.api.dir}}",
-        "api": "{{.gofkctl.api.api}}",
-        "style": "{{.global.style}}"
+        "branch": "{{.global.branch}}"
       }
     },
-    "docker": {
-      "short": "Generate Dockerfile",
-      "exe": "The executable name in the built image",
-      "go": "The file that contains main function",
-      "base": "The base image to build the docker image, default scratch",
-      "port": "The port to expose, default none",
+    "tools": {
+      "short": "gtop tools",
+      "o": "Output a sample api file",
       "home": "{{.global.home}}",
       "remote": "{{.global.remote}}",
       "branch": "{{.global.branch}}",
-      "version": "The gofkctl builder golang image version",
-      "tz": "The timezone of the container"
-    },
-    "env": {
-      "short": "Check or edit gofkctl environment",
-      "write": "Edit gofkctl environment",
-      "force": "Silent installation of non-existent dependencies",
-      "verbose": "Enable log output",
-      "install": {
-        "short": "gofkctl env installation"
-      },
-      "check": {
-        "short": "Detect gofkctl env and dependency tools",
-        "install": "Install dependencies if not found"
-      }
-    },
-    "model": {
-      "short": "Generate model code",
+      "api": "The api file",
       "dir": "The target dir",
-      "mysql": {
-        "short": "Generate mysql model",
-        "strict": "Generate model in strict mode",
-        "ignore-columns": "Ignore columns while creating or updating rows",
-        "datasource": {
-          "short": "Generate model from datasource",
-          "url": "The data source of database,like \"root:password@tcp(127.0.0.1:3306)/database",
-          "table": "The table or table globbing patterns in the database",
-          "cache": "Generate code with cache [optional]",
-          "dir": "{{.gofkctl.model.dir}}",
-          "style": "{{.global.style}}",
-          "idea": "For idea plugin [optional]",
-          "home": "{{.global.home}}",
-          "remote": "{{.global.remote}}",
-          "branch": "{{.global.branch}}"
-        },
-        "ddl": {
-          "short": "Generate mysql model from ddl",
-          "src": "The path or path globbing patterns of the ddl",
-          "dir": "{{.gofkctl.model.dir}}",
-          "style": "{{.global.style}}",
-          "cache": "Generate code with cache [optional]",
-          "idea": "For idea plugin [optional]",
-          "home": "{{.global.home}}",
-          "remote": "{{.global.remote}}",
-          "branch": "{{.global.branch}}"
-        }
-      },
-      "pg": {
-        "short": "Generate postgresql model",
-        "datasource": {
-          "short": "Generate model from datasource",
-          "url": "The data source of database,like \"root:password@tcp(127.0.0.1:3306)/database",
-          "table": "The table or table globbing patterns in the database",
-          "schema": "The schema or schema globbing patterns in the database",
-          "cache": "Generate code with cache [optional]",
-          "dir": "{{.gofkctl.model.dir}}",
-          "style": "{{.global.style}}",
-          "idea": "For idea plugin [optional]",
-          "strict": "Generate model in strict mode",
-          "home": "{{.global.home}}",
-          "remote": "{{.global.remote}}",
-          "branch": "{{.global.branch}}"
-        }
-      }
-    },
-    "rpc": {
-      "short": "Generate rpc code",
-      "o": "Output a sample proto file",
-      "home": "{{.global.home}}",
-      "remote": "{{.global.remote}}",
-      "branch": "{{.global.branch}}",
-      "new": {
-        "short": "Generate rpc demo service",
-        "style": "{{.global.style}}",
-        "idea": "For idea plugin [optional]",
+      "ping": {
+        "short": "gtop tools ping",
+        "o": "Output a sample ping file",
         "home": "{{.global.home}}",
         "remote": "{{.global.remote}}",
-        "branch": "{{.global.branch}}",
-        "verbose": "Enable log output",
-        "client": "Whether to generate rpc client"
+        "branch": "{{.global.branch}}"
       },
-      "protoc": {
-        "short": "Generate grpc code",
-        "example": "gofkctl rpc protoc xx.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=.",
-        "multiple": "Generated in multiple rpc service mode",
-        "zrpc_out": "The zrpc output directory",
-        "style": "{{.global.style}}",
+      "ssh": {
+        "short": "gtop tools ssh",
+        "o": "Output a sample ssh file",
         "home": "{{.global.home}}",
         "remote": "{{.global.remote}}",
-        "branch": "{{.global.branch}}",
-        "verbose": "Enable log output",
-        "client": "Whether to generate rpc client"
+        "branch": "{{.global.branch}}"
+      },
+      "scp": {
+        "short": "gtop tools scp",
+        "o": "Output a sample scp file",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}"
+      },
+      "packet": {
+        "short": "gtop tools packet",
+        "o": "Output a sample packet file",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}"
+      },
+      "bashx": {
+        "short": "gtop tools bashx",
+        "o": "Output a sample bashx file",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}"
       }
     }
   },
   "global": {
     "home": "The gofkctl home path of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority",
     "remote": "The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority\nThe git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure",
-    "branch": "The branch of the remote repo, it does work with --remote",
-    "style": "The file naming format"
+    "branch": "The branch of the remote repo, it does work with --remote"
   }
 }

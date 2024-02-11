@@ -1,35 +1,63 @@
-package gbash
+package lib
 
 import (
+	"gbash/lib/common"
 	"github.com/progrium/go-basher"
 	"log"
-	"sync"
+	"os"
 )
 
-var (
-	BashCtx  *basher.Context
-	BashOnce *sync.Once
+type (
+	GBash struct {
+		sourcePath string
+		ctx        *basher.Context
+	}
 )
 
 const (
-	SHPath   = "/bin/sh"
 	BASHPath = "/bin/bash"
 )
 
-func NewBash(shellPath string) *basher.Context {
+func NewBash(filePath, shellPath string) *GBash {
 
-	BashOnce.Do(func() {
-		bash, err := basher.NewContext(SHPath, true)
-		if err != nil {
-			log.Fatal(err)
-		}
+	bash := &GBash{
+		sourcePath: filePath,
+	}
 
-		BashCtx = bash
-	})
+	ctx, err := basher.NewContext(shellPath, true)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	return BashCtx
+	bash.ctx = ctx
+
+	return bash
 }
 
-func AddExport() {}
+func (g *GBash) Used(opts ...common.ListExports) *GBash {
+	for _, fn := range opts {
+		fn(g.ctx)
+	}
 
-func AddExportFunc() {}
+	return g
+}
+
+func (g *GBash) Run() {
+
+	if g.ctx.HandleFuncs(os.Args) {
+		os.Exit(0)
+	}
+
+	//加入shell 脚本
+	err := g.ctx.Source(g.sourcePath, common.ShellLoader)
+	if err != nil {
+		log.Fatal("bash ctx Source failed:", err)
+	}
+
+	//运行加入的shell脚本
+	status, err := g.ctx.Run("", []string{}) //固定 os.Args[1]
+	if err != nil {
+		log.Fatal("bash ctx Run failed:", err)
+	}
+	os.Exit(status)
+}

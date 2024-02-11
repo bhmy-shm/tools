@@ -1,5 +1,7 @@
 package common
 
-import "github.com/progrium/go-basher"
+import (
+	"github.com/progrium/go-basher"
+)
 
 type ListExports func(ctx *basher.Context)

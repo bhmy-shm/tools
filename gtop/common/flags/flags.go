@@ -5,9 +5,9 @@ import (
 	_ "embed"
 	"encoding/json"
 	"fmt"
-	"github.com/bhmy-shm/tools/gofkctl/common/utils"
 	"io"
 	"log"
+	"regexp"
 	"strings"
 	"testing"
 )
@@ -73,8 +73,8 @@ func setTestData(t *testing.T, data []byte) {
 
 func (f *Flags) Get(key string) (string, error) {
 	value := f.loader.GetString(key)
-	for utils.IsTemplateVariable(value) {
-		value = utils.TemplateVariable(value)
+	for IsTemplateVariable(value) {
+		value = TemplateVariable(value)
 		if value == key {
 			return "", fmt.Errorf("the variable can not be self: %q", key)
 		}
@@ -97,4 +97,19 @@ func Get(key string) string {
 	}
 
 	return v
+}
+
+// IsTemplateVariable 函数会返回 true，如果文本是一个模板变量
+// 文本必须以点号开头，并且是一个有效的模板。
+func IsTemplateVariable(text string) bool {
+	match, _ := regexp.MatchString(`(?m)^{{(\.\w+)+}}$`, text)
+	return match
+}
+
+// TemplateVariable 函数返回模板的变量名。
+func TemplateVariable(text string) string {
+	if IsTemplateVariable(text) {
+		return text[3 : len(text)-2]
+	}
+	return ""
 }

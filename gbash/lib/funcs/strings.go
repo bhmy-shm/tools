@@ -1,33 +1,44 @@
-package utils
+package funcs
 
 import (
+	"bufio"
 	"fmt"
-	"io"
-	"log"
+	"gbash/lib/common"
+	"github.com/progrium/go-basher"
 	"os"
 	"strings"
 )
 
-func Upper(args []string) {
+type StringFunc struct {
+}
 
-	//log.Println("upper args:", args)
+func NewString() *StringFunc {
+	return &StringFunc{}
+}
+
+func (s *StringFunc) Upper() common.ListExports {
+	return func(ctx *basher.Context) {
+		ctx.ExportFunc("upper", s.toUpper)
+	}
+}
+
+func (s *StringFunc) toUpper(args []string) {
 
 	//将脚本参数改为大写的
 	if len(args) == 1 {
 		fmt.Println(strings.ToUpper(args[0]))
 	} else {
 		//支持管道模式
-		bytes, err := io.ReadAll(os.Stdin)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		if len(bytes) > 0 {
-			in := strings.Trim(string(bytes), "\n")
-			if in != "" {
-				fmt.Println(strings.ToUpper(string(bytes)))
+		stat, _ := os.Stdin.Stat()
+		if (stat.Mode() & os.ModeCharDevice) == 0 {
+			scanner := bufio.NewScanner(os.Stdin)
+			in := ""
+			for scanner.Scan() {
+				in += scanner.Text()
+			}
+			if scanner.Err() == nil && in != "" {
+				fmt.Println(strings.ToUpper(in))
 			}
 		}
-
 	}
 }
