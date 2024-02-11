@@ -1,0 +1,7 @@
+
+echo "shmhello" | upper
+upper "abc"
+
+echo $_mem_ava | M
+echo $_mem_total | G
+echo $_mem_total
